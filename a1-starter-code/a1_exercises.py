@@ -13,7 +13,7 @@ def last_prime(m):
     
 def is_prime(m):
     n = m - 1
-    while (n < 1):
+    while (n > 1):
         if (m % n == 0):
             return False
         n -= 1
@@ -40,10 +40,10 @@ def perfect_shuffle(even_list):
     Perfect shuffle means splitting a list into two halves and then interleaving
     them. For example, the perfect shuffle of [0, 1, 2, 3, 4, 5, 6, 7] is
     [0, 4, 1, 5, 2, 6, 3, 7]."""
-    first_half = even_list[:even_list.len()/2]
-    second_half = even_list[even_list.len()/2:]
+    first_half = even_list[:len(even_list)//2]
+    second_half = even_list[len(even_list)//2:]
     result = []
-    for x in range (first_half.len()):
+    for x in range (len(first_half)):
         result.append(first_half[x])
         result.append(second_half[x])
     return result
@@ -52,6 +52,7 @@ def list_of_3_times_elts_plus_1(input_list):
     """Assume a list of numbers is input. Using a list comprehension,
     return a new list in which each input element has been multiplied
     by 3 and had 1 added to it."""
+    return [x*3+1 for x in input_list]
 
 def triple_vowels(text):
     """Return a new version of text, with all the vowels tripled.
@@ -59,6 +60,15 @@ def triple_vowels(text):
     For this exercise assume the vowels are
     the characters A,E,I,O, and U (and a,e,i,o, and u).
     Maintain the case of the characters."""
+    vowel_list = ['A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u']
+    result = ""
+    for c in text:
+        if c in vowel_list:
+            result += c*3
+        else:
+            result += c
+    return result
+
 
 def count_words(text):
     """Return a dictionary having the words in the text as keys,
@@ -67,4 +77,21 @@ def count_words(text):
     '-', '+', *', '/', '@', '#', '%', and "'" separated by whitespace,
     newlines, and/or punctuation (characters like . , ; ! ? & ( ) [ ] { } | : ).
     Convert all the letters to lower-case before the counting."""
+    text = text.lower()
+    text = " " + text + " "
+    okay_chars = ['-', '+', '*', '/', '@', '#', '%', '\'']
+    result = {}
+    word_start = -1
+    for i in range (len(text)):
+        if (text[i].isalnum() or text[i] in okay_chars) and (word_start < 0):
+            word_start = i
+        if (not text[i].isalnum() and text[i] not in okay_chars) and (word_start >= 0):
+            word = text[word_start:i]
+            if word in result:
+                result[word] += 1
+            else:
+                result[word] = 1
+            word_start = -1 
+    return result
+
 

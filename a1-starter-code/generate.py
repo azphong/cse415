@@ -40,6 +40,7 @@ def show_word_groups():
         print(WORD_GROUPS[k])
 
 RULE_GROUPS = RuleGroup.groups
+print(RULE_GROUPS)
 
 # Function to generate some text starting with a particular construct,
 # such as MESSAGE, VERB_PHRASE, or ADJECTIVE.
@@ -51,16 +52,19 @@ def gen_text(construct):
     # if is in vocab.POS_KEYS.
 
     # (STUDENT CODE GOES HERE)
+    if construct in vocab.POS_KEYS:
 
     # If so, return a chosen word from the appropriate word group.
     #  (Get the appropriate word group, and then call its 'choose' method.)
     
     # (STUDENT CODE GOES HERE)
+        return WORD_GROUPS[construct].choose(CHOICE_MODE)
 
     # Otherwise, get the rule group for this construct, and
     # then choose one of its rules.
     
     # (STUDENT CODE GOES HERE)
+    RULE_GROUPS[construct].choose(CHOICE_MODE)
 
     # Next get the right-hand side (rhs) of this rule.
     # There will be one or more constructs in this rhs.
@@ -90,4 +94,6 @@ def gen_overall_message():
 
 if __name__=='__main__':
     print(gen_overall_message())
+
+show_word_groups()
 
