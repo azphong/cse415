@@ -40,7 +40,7 @@ def show_word_groups():
         print(WORD_GROUPS[k])
 
 RULE_GROUPS = RuleGroup.groups
-print(RULE_GROUPS)
+#print(RULE_GROUPS)
 
 # Function to generate some text starting with a particular construct,
 # such as MESSAGE, VERB_PHRASE, or ADJECTIVE.
@@ -64,7 +64,8 @@ def gen_text(construct):
     # then choose one of its rules.
     
     # (STUDENT CODE GOES HERE)
-    RULE_GROUPS[construct].choose(CHOICE_MODE)
+    
+    rule = RULE_GROUPS[construct].choose(CHOICE_MODE)
 
     # Next get the right-hand side (rhs) of this rule.
     # There will be one or more constructs in this rhs.
@@ -74,6 +75,8 @@ def gen_text(construct):
     # Consider using the 'join' method of strings for this.
 
     # (STUDENT CODE GOES HERE)
+    words = [gen_text(x) for x in rule.rhs]
+    text = " ".join(words)
 
     # Then return the resulting string.
 
@@ -95,5 +98,5 @@ def gen_overall_message():
 if __name__=='__main__':
     print(gen_overall_message())
 
-show_word_groups()
+#show_word_groups()
 
