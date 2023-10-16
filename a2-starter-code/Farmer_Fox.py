@@ -50,19 +50,51 @@ class State():
             new_state.d[thing] = self.d[thing]
         return new_state
     
-    def can_move(self,things):
+    def can_move(self,moving_things):
         farmer_side = []
         for thing in self.d:
             if self.d[thing]==self.d['farmer']:
                 farmer_side.append(thing)
-            if thing in things and thing not in farmer_side:
+            if thing in moving_things and thing not in farmer_side:
                 return False # can't move thing if not on same side as farmer
-        farmer_side.remove(thing for thing in things)
+        farmer_side.remove(thing for thing in moving_things)
         if 'chicken' in farmer_side and 'fox' in farmer_side:
             return False # can't leave fox and chicken alone
         if 'chicken' in farmer_side and 'grain' in farmer_side:
             return False # can't leave chicken and grain alone
         return True
+    
+    def move(self,moving_things):
+        new_state = self.copy()
+        for thing in moving_things:
+            new_state.d[thing] = 1-new_state.d[thing]
+        return new_state
+    
+    def goal_test(s):
+        for thing in s.d:
+            if s.d[thing] == LEFT:
+                return False
+        return True
+    
+    def goal_message(s):
+        return "Congratulations on moving everything across the river!"
+    
+    class Operator:
+        def __init__(self, name, precond, state_transf):
+            self.name = name
+            self.precond = precond
+            self.state_transf = state_transf
+
+        def is_applicable(self, s):
+            return self.precond(s)
+        
+        def apply(self, s):
+            return self.state_transf(s)
+        
+    CREATE_INITIAL_STATE = lambda : State()
+
+    OPERATORS = [Operator()]
+
 
             
 
