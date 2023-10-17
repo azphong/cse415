@@ -1,0 +1,123 @@
+Welcome to ItrDFS
+Initial State:
+farmer is on the left
+fox is on the left
+chicken is on the left
+grain is on the left
+
+len(OPEN)= 1; len(CLOSED)= 0; COUNT = 0
+OPEN is now: farmer is on the right
+fox is on the left
+chicken is on the right
+grain is on the left
+
+len(OPEN)= 1; len(CLOSED)= 1; COUNT = 1
+OPEN is now: farmer is on the left
+fox is on the left
+chicken is on the right
+grain is on the left
+
+len(OPEN)= 1; len(CLOSED)= 2; COUNT = 2
+OPEN is now: farmer is on the right
+fox is on the left
+chicken is on the right
+grain is on the right
+, farmer is on the right
+fox is on the right
+chicken is on the right
+grain is on the left
+
+len(OPEN)= 2; len(CLOSED)= 3; COUNT = 3
+OPEN is now: farmer is on the left
+fox is on the left
+chicken is on the left
+grain is on the right
+, farmer is on the right
+fox is on the right
+chicken is on the right
+grain is on the left
+
+len(OPEN)= 2; len(CLOSED)= 4; COUNT = 4
+OPEN is now: farmer is on the right
+fox is on the right
+chicken is on the left
+grain is on the right
+, farmer is on the right
+fox is on the right
+chicken is on the right
+grain is on the left
+
+len(OPEN)= 2; len(CLOSED)= 5; COUNT = 5
+OPEN is now: farmer is on the left
+fox is on the right
+chicken is on the left
+grain is on the right
+, farmer is on the left
+fox is on the right
+chicken is on the left
+grain is on the left
+, farmer is on the right
+fox is on the right
+chicken is on the right
+grain is on the left
+
+len(OPEN)= 3; len(CLOSED)= 6; COUNT = 6
+OPEN is now: farmer is on the right
+fox is on the right
+chicken is on the right
+grain is on the right
+, farmer is on the left
+fox is on the right
+chicken is on the left
+grain is on the left
+, farmer is on the right
+fox is on the right
+chicken is on the right
+grain is on the left
+
+len(OPEN)= 3; len(CLOSED)= 7; COUNT = 7
+Congratulations on moving everything across the river!
+Solution path:
+farmer is on the left
+fox is on the left
+chicken is on the left
+grain is on the left
+
+farmer is on the right
+fox is on the left
+chicken is on the right
+grain is on the left
+
+farmer is on the left
+fox is on the left
+chicken is on the right
+grain is on the left
+
+farmer is on the right
+fox is on the left
+chicken is on the right
+grain is on the right
+
+farmer is on the left
+fox is on the left
+chicken is on the left
+grain is on the right
+
+farmer is on the right
+fox is on the right
+chicken is on the left
+grain is on the right
+
+farmer is on the left
+fox is on the right
+chicken is on the left
+grain is on the right
+
+farmer is on the right
+fox is on the right
+chicken is on the right
+grain is on the right
+
+Length of solution path found: 7 edges
+Number of states expanded: 7
+Maximum length of the open list: 3
