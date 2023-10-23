@@ -26,7 +26,7 @@ I_PLAY = 'X' # Gets updated by call to prepare.
 # GAME VERSION INFO
 M = 0
 N = 0
-K = 0
+K = 5
 TIME_LIMIT = 0
  
  
@@ -93,6 +93,7 @@ def minimax(state, depthRemaining, pruning=False, alpha=None, beta=None, zHashin
     # in the list, after the score.
 
 def successors(state, ):
+    return
  
 ##########################################################################
  
@@ -111,10 +112,9 @@ def win_possible(spaces, player):
             count += 1
         else:
             count = 0
-    if count >= K:
-        return True
-    else:
-        return False
+        if count >= K:
+            return True
+    return False
 
 def check_rows(board):
     score = 0
@@ -139,6 +139,29 @@ def check_columns(board):
 
 def check_diagonals(board):
     score = 0
+    for i in range(len(board)):
+        diagonal = []
+
+FIVE_INITIAL_STATE = \
+              [[['-',' ',' ',' ',' ',' ','-'],
+                [' ',' ',' ',' ',' ',' ',' '],
+                [' ',' ',' ',' ',' ',' ',' '],
+                [' ',' ',' ',' ',' ',' ',' '],
+                [' ',' ',' ',' ',' ',' ',' '],
+                [' ',' ',' ',' ',' ',' ',' '],
+                ['-',' ',' ',' ',' ',' ','-']], "X"]
+
+test_board =   [['-','X','X','X',' ',' ','-'],
+                [' ','X','X',' ',' ',' ',' '],
+                [' ','X','X','X',' ',' ',' '],
+                [' ','O',' ','X','X',' ',' '],
+                [' ',' ',' ',' ','X','X',' '],
+                [' ',' ',' ',' ',' ','X',' '],
+                ['-',' ',' ',' ',' ',' ','-']]
+
+print(check_rows(test_board))
+print(check_columns(test_board))
+print(check_diagonals(test_board))
         
 
  
