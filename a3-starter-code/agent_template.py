@@ -1,6 +1,6 @@
 '''
-<yourUWNetID>KInARow.py
-Author: <your name here>
+ahong02KInARow.py
+Author: Aaron Hong
 An agent for playing "K-in-a-Row with Forbidden Squares"
 CSE 415, University of Washington
 
@@ -48,8 +48,15 @@ def nickname():
 def prepare(initial_state, k, what_side_I_play, opponent_nickname):
     # Write code to save the relevant information in either
     # global variables.
+
+    INITIAL_STATE = initial_state
+    K = k
+    I_PLAY = what_side_I_play
+    OPPONENT_NICKNAME = opponent_nickname
+
+
     print("Change this to return 'OK' when ready to test the method.")
-    return "Not-OK"
+    return "OK"
  
 ############################################################
  
@@ -77,11 +84,15 @@ def makeMove(currentState, currentRemark, timeLimit=10000):
 def minimax(state, depthRemaining, pruning=False, alpha=None, beta=None, zHashing=None):
     print("Calling minimax. We need to implement its body.")
 
+    if depthRemaining == 0:
+        return staticEval(state)
     default_score = 0 # Value of the passed-in state. Needs to be computed.
     
     return [default_score, "my own optional stuff", "more of my stuff"]
     # Only the score is required here but other stuff can be returned
     # in the list, after the score.
+
+def successors(state, ):
  
 ##########################################################################
  
@@ -89,6 +100,46 @@ def staticEval(state):
     print('calling staticEval. Its value needs to be computed!')
     # Values should be higher when the states are better for X,
     # lower when better for O.
+    
     return 0
+    
+    
+def win_possible(spaces, player):
+    count = 0
+    for space in spaces:
+        if space == player or space == ' ':
+            count += 1
+        else:
+            count = 0
+    if count >= K:
+        return True
+    else:
+        return False
+
+def check_rows(board):
+    score = 0
+    for row in board:
+        if win_possible(row, 'X'):
+            score += 1
+        if win_possible(row, 'O'):
+            score -= 1
+    return score
+
+def check_columns(board):
+    score = 0
+    for i in range(len(board)):
+        column = []
+        for row in board:
+            column.append(row[i])
+        if win_possible(column, 'X'):
+            score += 1
+        if win_possible(column, 'O'):
+            score -= 1
+    return score
+
+def check_diagonals(board):
+    score = 0
+        
+
  
 ##########################################################################
