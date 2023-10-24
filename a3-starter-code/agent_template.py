@@ -10,7 +10,7 @@ TO PROVIDE A GOOD STRUCTURE FOR YOUR IMPLEMENTATION.
 
 '''
 
-import time
+import time, copy
 
 # Global variables to hold information about the opponent and game version:
 INITIAL_STATE = None
@@ -70,12 +70,14 @@ def makeMove(currentState, currentRemark, timeLimit=10000):
     
     newState = currentState # This is not allowed, and even if
     # it were allowed, the newState should be a deep COPY of the old.
+
+    new_move_state = minimax(currentState, 2)[1]
     
     newRemark = "I need to think of something appropriate.\n" +\
     "Well, I guess I can say that this move is probably illegal."
 
     print("Returning from makeMove")
-    return [[a_default_move, newState], newRemark]
+    return [new_move_state, newRemark]
  
  
 ##########################################################################
@@ -84,16 +86,41 @@ def makeMove(currentState, currentRemark, timeLimit=10000):
 def minimax(state, depthRemaining, pruning=False, alpha=None, beta=None, zHashing=None):
     print("Calling minimax. We need to implement its body.")
 
+    best_move_state = [[0,0], state]
     if depthRemaining == 0:
-        return staticEval(state)
-    default_score = 0 # Value of the passed-in state. Needs to be computed.
+        return [staticEval(state), best_move_state]
+    if state[1] == 'X': provisional = -100000
+    else: provisional = 100000
+
+    for s in successors(state):
+        new_score = minimax(s[1], depthRemaining - 1)
+        if (state[1] == 'X' and new_score[0] > provisional) or (state[1] == 'O' and new_score[0] < provisional):
+            provisional = new_score[0]
+            best_move_state = s
+    #default_score = 0 # Value of the passed-in state. Needs to be computed.
     
-    return [default_score, "my own optional stuff", "more of my stuff"]
+    return [provisional, best_move_state, "my own optional stuff", "more of my stuff"]
     # Only the score is required here but other stuff can be returned
     # in the list, after the score.
 
-def successors(state, ):
-    return
+def other(player):
+    if player == 'X':
+        return 'O'
+    if player == 'O':
+        return 'X'
+
+def successors(state):
+    move_states = []
+    player = state[1]
+    for row in range(len(state[0])):
+        for column in range(len(state[0][row])):
+            if state[0][row][column] == ' ':
+                new_state = copy.deepcopy(state)
+                new_state[0][row][column] = player
+                new_state[1] = other(player)
+                move_states.append([[row, column], new_state])
+    return move_states
+                
  
 ##########################################################################
  
@@ -101,12 +128,19 @@ def staticEval(state):
     print('calling staticEval. Its value needs to be computed!')
     # Values should be higher when the states are better for X,
     # lower when better for O.
+    score = 0
+
+    score += check_all_win_cons(state[0])
     
-    return 0
+    return score
     
+def update_score(current_score):
+    return
     
 def win_possible(spaces, player):
     count = 0
+    if(len(spaces) < K):
+        return False
     for space in spaces:
         if space == player or space == ' ':
             count += 1
@@ -116,13 +150,26 @@ def win_possible(spaces, player):
             return True
     return False
 
+def win_possible_score(spaces):
+    score = 0
+    if win_possible(spaces, 'X'):
+        score += 1
+    if win_possible(spaces, 'O'):
+        score -= 1
+    return score
+
+def check_all_win_cons(board):
+    score = 0
+    score += check_rows(board)
+    score += check_columns(board)
+    score += check_upwards_diagonals(board)
+    score += check_downwards_diagonals(board)
+    return score
+
 def check_rows(board):
     score = 0
     for row in board:
-        if win_possible(row, 'X'):
-            score += 1
-        if win_possible(row, 'O'):
-            score -= 1
+        score += win_possible_score(row)
     return score
 
 def check_columns(board):
@@ -131,16 +178,56 @@ def check_columns(board):
         column = []
         for row in board:
             column.append(row[i])
-        if win_possible(column, 'X'):
-            score += 1
-        if win_possible(column, 'O'):
-            score -= 1
+        score += win_possible_score(column)
     return score
 
-def check_diagonals(board):
+def check_upwards_diagonals(board):
     score = 0
-    for i in range(len(board)):
+    for row_start in range(len(board)):
         diagonal = []
+        column_index = 0
+        row_index = row_start
+        while within_board_bounds(board, row_index, column_index):
+            diagonal.append(board[row_index][column_index])
+            column_index += 1
+            row_index -= 1
+        score += win_possible_score(diagonal)
+    for column_start in range(1, len(board[:])):
+        diagonal = []
+        column_index = column_start
+        row_index = len(board) - 1
+        while within_board_bounds(board, row_index, column_index):
+            diagonal.append(board[row_index][column_index])
+            row_index -= 1
+            column_index += 1
+        score += win_possible_score(diagonal)
+    return score
+
+def check_downwards_diagonals(board):
+    score = 0
+    for row_start in range(len(board)):
+        diagonal = []
+        column_index = len(board[:]) - 1
+        row_index = row_start
+        while within_board_bounds(board, row_index, column_index):
+            diagonal.append(board[row_index][column_index])
+            column_index -= 1
+            row_index -= 1
+        score += win_possible_score(diagonal)
+    for column_start in range(len(board[:]) - 2, -1, -1):
+        diagonal = []
+        column_index = column_start
+        row_index = len(board) - 1
+        while within_board_bounds(board, row_index, column_index):
+            diagonal.append(board[row_index][column_index])
+            row_index -= 1
+            column_index -= 1
+        score += win_possible_score(diagonal)
+    return score
+
+def within_board_bounds(board, row, column):
+    return row >= 0 and column >= 0 and row < len(board) and column < len(board[:])
+        
 
 FIVE_INITIAL_STATE = \
               [[['-',' ',' ',' ',' ',' ','-'],
@@ -151,17 +238,20 @@ FIVE_INITIAL_STATE = \
                 [' ',' ',' ',' ',' ',' ',' '],
                 ['-',' ',' ',' ',' ',' ','-']], "X"]
 
-test_board =   [['-','X','X','X',' ',' ','-'],
-                [' ','X','X',' ',' ',' ',' '],
-                [' ','X','X','X',' ',' ',' '],
-                [' ','O',' ','X','X',' ',' '],
-                [' ',' ',' ',' ','X','X',' '],
-                [' ',' ',' ',' ',' ','X',' '],
+test_board =   [['-',' ',' ',' ','X',' ','-'],
+                [' ',' ',' ','X',' ',' ',' '],
+                [' ',' ','X',' ',' ',' ',' '],
+                [' ','X',' ',' ',' ',' ',' '],
+                ['X',' ',' ',' ',' ',' ',' '],
+                [' ',' ',' ',' ',' ',' ',' '],
                 ['-',' ',' ',' ',' ',' ','-']]
 
 print(check_rows(test_board))
 print(check_columns(test_board))
-print(check_diagonals(test_board))
+print(check_upwards_diagonals(test_board))
+print(check_downwards_diagonals(test_board))
+print(staticEval(FIVE_INITIAL_STATE))
+print(successors(FIVE_INITIAL_STATE))
         
 
  
