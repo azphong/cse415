@@ -10,7 +10,7 @@ TO PROVIDE A GOOD STRUCTURE FOR YOUR IMPLEMENTATION.
 
 '''
 
-import time, copy
+import time, copy, math
 
 # Global variables to hold information about the opponent and game version:
 INITIAL_STATE = None
@@ -84,7 +84,7 @@ def makeMove(currentState, currentRemark, timeLimit=10000):
  
 # The main adversarial search function:
 def minimax(state, depthRemaining, pruning=False, alpha=None, beta=None, zHashing=None):
-    print("Calling minimax. We need to implement its body.")
+    #print("Calling minimax. We need to implement its body.")
 
     best_move_state = [[0,0], state]
     if depthRemaining == 0:
@@ -125,7 +125,7 @@ def successors(state):
 ##########################################################################
  
 def staticEval(state):
-    print('calling staticEval. Its value needs to be computed!')
+    #print('calling staticEval. Its value needs to be computed!')
     # Values should be higher when the states are better for X,
     # lower when better for O.
     score = 0
@@ -133,9 +133,6 @@ def staticEval(state):
     score += check_all_win_cons(state[0])
     
     return score
-    
-def update_score(current_score):
-    return
     
 def win_possible(spaces, player):
     count = 0
@@ -150,12 +147,26 @@ def win_possible(spaces, player):
             return True
     return False
 
+def in_a_row_score(spaces, player):
+    score = 0
+    in_a_row = 0
+    for space in spaces:
+        if space == player:
+            in_a_row += 1
+            score += math.pow(4, in_a_row)
+        else:
+            in_a_row = 0
+    return score
+
+
 def win_possible_score(spaces):
     score = 0
     if win_possible(spaces, 'X'):
         score += 1
+        score += in_a_row_score(spaces, 'X')
     if win_possible(spaces, 'O'):
         score -= 1
+        score -= in_a_row_score(spaces, 'O')
     return score
 
 def check_all_win_cons(board):
@@ -246,12 +257,8 @@ test_board =   [['-',' ',' ',' ','X',' ','-'],
                 [' ',' ',' ',' ',' ',' ',' '],
                 ['-',' ',' ',' ',' ',' ','-']]
 
-print(check_rows(test_board))
-print(check_columns(test_board))
-print(check_upwards_diagonals(test_board))
-print(check_downwards_diagonals(test_board))
-print(staticEval(FIVE_INITIAL_STATE))
-print(successors(FIVE_INITIAL_STATE))
+print(in_a_row_score(['X', 'X', ' ', ' '], 'X'))
+print(win_possible(['X','X','X', ' ','O','O'], 'X'))
         
 
  

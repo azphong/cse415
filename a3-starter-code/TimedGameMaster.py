@@ -4,7 +4,7 @@
 S. Tanimoto, Nov. 21, 2017.
 '''
 
-TIME_PER_MOVE = 0.5 # default time limit is half a second.
+TIME_PER_MOVE = 1 # default time limit is half a second.
 USE_HTML = True
 
 import sys
@@ -22,8 +22,8 @@ else:
 #from FiveInARowGameType import K, NAME, INITIAL_STATE
 
 #from TicTacToeGameType import K, NAME, INITIAL_STATE
-#from FiveInARowGameType import K, NAME, INITIAL_STATE
-from CassiniGameType import K, NAME, INITIAL_STATE
+from FiveInARowGameType import K, NAME, INITIAL_STATE
+#from CassiniGameType import K, NAME, INITIAL_STATE
 
 
 def count_blanks(state): # Find the limit on how many turns can be made from this state.
