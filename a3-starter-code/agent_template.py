@@ -18,15 +18,15 @@ OPPONENT_NICKNAME = 'Not yet known'
 OPPONENT_PLAYS = 'O' # Update this after the call to prepare.
 
 # Information about this agent:
-MY_LONG_NAME = 'Templatus Skeletus'
-MY_NICKNAME = 'Tea-ess'
+MY_LONG_NAME = 'Luminous Godwin, Bane of Bots, Curator of Viruses, King of Lies'
+MY_NICKNAME = 'Xx_Godwin_xX'
 I_PLAY = 'X' # Gets updated by call to prepare.
 
  
 # GAME VERSION INFO
 M = 0
 N = 0
-K = 5
+K = 0
 TIME_LIMIT = 0
  
  
@@ -39,7 +39,7 @@ def introduce():
     return intro
  
 def nickname():
-    return 'Tea-ess'
+    return MY_NICKNAME
  
 ############################################################
 
@@ -61,9 +61,9 @@ def prepare(initial_state, k, what_side_I_play, opponent_nickname):
 ############################################################
  
 def makeMove(currentState, currentRemark, timeLimit=10000):
-    print("makeMove has been called")
+    #print("makeMove has been called")
 
-    print("code to compute a good move should go here.")
+    #print("code to compute a good move should go here.")
     # Here's a placeholder:
     a_default_move = [0, 0] # This might be legal ONCE in a game,
     # if the square is not forbidden or already occupied.
@@ -71,13 +71,14 @@ def makeMove(currentState, currentRemark, timeLimit=10000):
     newState = currentState # This is not allowed, and even if
     # it were allowed, the newState should be a deep COPY of the old.
 
-    new_move_state = minimax(currentState, 2)[1]
+    #new_move_state = minimax(currentState, 2)[1]
+    move_data = minimax(currentState, 2)
+    print(move_data[0])
     
     newRemark = "I need to think of something appropriate.\n" +\
     "Well, I guess I can say that this move is probably illegal."
 
-    print("Returning from makeMove")
-    return [new_move_state, newRemark]
+    return [move_data[1], newRemark]
  
  
 ##########################################################################
@@ -185,7 +186,7 @@ def check_rows(board):
 
 def check_columns(board):
     score = 0
-    for i in range(len(board)):
+    for i in range(len(board[:])):
         column = []
         for row in board:
             column.append(row[i])
@@ -244,7 +245,7 @@ FIVE_INITIAL_STATE = \
               [[['-',' ',' ',' ',' ',' ','-'],
                 [' ',' ',' ',' ',' ',' ',' '],
                 [' ',' ',' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' ',' ',' '],
+                [' ',' ',' ','X',' ',' ',' '],
                 [' ',' ',' ',' ',' ',' ',' '],
                 [' ',' ',' ',' ',' ',' ',' '],
                 ['-',' ',' ',' ',' ',' ','-']], "X"]
@@ -257,8 +258,14 @@ test_board =   [['-',' ',' ',' ','X',' ','-'],
                 [' ',' ',' ',' ',' ',' ',' '],
                 ['-',' ',' ',' ',' ',' ','-']]
 
-print(in_a_row_score(['X', 'X', ' ', ' '], 'X'))
-print(win_possible(['X','X','X', ' ','O','O'], 'X'))
+TTT_INITIAL_STATE = [[[' ',' ',' '],
+                      [' ','X',' '],
+                      [' ',' ',' ']], "X"]
+
+# print(in_a_row_score(['X', 'X', ' ', ' '], 'X'))
+# print(win_possible(['X','X','X', ' ','O','O'], 'X'))
+print(staticEval(TTT_INITIAL_STATE))
+print(staticEval(FIVE_INITIAL_STATE))
         
 
  

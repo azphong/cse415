@@ -22,8 +22,8 @@ else:
 #from FiveInARowGameType import K, NAME, INITIAL_STATE
 
 #from TicTacToeGameType import K, NAME, INITIAL_STATE
-from FiveInARowGameType import K, NAME, INITIAL_STATE
-#from CassiniGameType import K, NAME, INITIAL_STATE
+#from FiveInARowGameType import K, NAME, INITIAL_STATE
+from CassiniGameType import K, NAME, INITIAL_STATE
 
 
 def count_blanks(state): # Find the limit on how many turns can be made from this state.
