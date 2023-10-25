@@ -22,8 +22,8 @@ else:
 #from FiveInARowGameType import K, NAME, INITIAL_STATE
 
 #from TicTacToeGameType import K, NAME, INITIAL_STATE
-#from FiveInARowGameType import K, NAME, INITIAL_STATE
-from CassiniGameType import K, NAME, INITIAL_STATE
+from FiveInARowGameType import K, NAME, INITIAL_STATE
+#from CassiniGameType import K, NAME, INITIAL_STATE
 
 
 def count_blanks(state): # Find the limit on how many turns can be made from this state.
@@ -79,6 +79,10 @@ def runGame():
                     
     print('The Gamemaster says, "Let\'s Play!"')
     print('The initial state is...')
+    print(player2.I_PLAY)
+    print(player1.I_PLAY)
+    print(player2.K)
+    print(player1.K)
 
     currentRemark = "The game is starting."
     if USE_HTML: gameToHTML.stateToHTML(currentState)

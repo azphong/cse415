@@ -79,7 +79,6 @@ def makeMove(currentState, currentRemark, timeLimit=10000):
     #new_move_state = minimax(currentState, 2)[1]
     move_data = minimax(currentState, 2)
     print(I_PLAY + " played ", move_data[0])
-    print(currentState[1])
     
     newRemark = "I need to think of something appropriate.\n" +\
     "Well, I guess I can say that this move is probably illegal."
