@@ -36,9 +36,8 @@ TIME_LIMIT = 0
 ############################################################
 # INTRODUCTION
 def introduce():
-    intro = '\nMy name is Templatus Skeletus.\n'+\
-            '"An instructor" made me.\n'+\
-            'Somebody please turn me into a real game-playing agent!\n' 
+    intro = '\nI am Luminous Godwin, Bane of Bots, Curator of Viruses, King of Lies\n'
+    intro += 'Prepare to be destroyed.' 
     return intro
  
 def nickname():
@@ -78,10 +77,15 @@ def makeMove(currentState, currentRemark, timeLimit=10000):
 
     #new_move_state = minimax(currentState, 2)[1]
     move_data = minimax(currentState, 2)
-    print(I_PLAY + " played ", move_data[0])
+    #print(I_PLAY + " played ", move_data[0])
+    #print(currentState[1])
     
-    newRemark = "I need to think of something appropriate.\n" +\
-    "Well, I guess I can say that this move is probably illegal."
+    if(move_data[0] > 0 and I_PLAY == 'X') or (move_data[0] < 0 and I_PLAY == 'O'):
+        newRemark = "mwahaha ur doomed lol"
+    elif(move_data[0] == 0):
+        newRemark = "uhh"
+    else:
+        newRemark = "ur not that guy pal"
 
     return [move_data[1], newRemark]
  
@@ -94,15 +98,24 @@ def minimax(state, depthRemaining, pruning=False, alpha=None, beta=None, zHashin
 
     best_move_state = [[0,0], state]
     if depthRemaining == 0 or no_more_moves(state):
-        return [staticEval(state)]
+        score = staticEval(state)
+        #print(score, depthRemaining)
+        return [score]
     if state[1] == 'X': provisional = -100000
     else: provisional = 100000
 
     for s in successors(state):
         new_score = minimax(s[1], depthRemaining - 1)
+        #history = [[]]
         if (state[1] == 'X' and new_score[0] > provisional) or (state[1] == 'O' and new_score[0] < provisional):
+            #if(depthRemaining >= 0):
+                #print("Switching from ",provisional,"to",new_score[0],state[1],"at depth",depthRemaining)
             provisional = new_score[0]
+            #print(new_score[0], depthRemaining)
             best_move_state = s
+            # if depthRemaining == 0:
+        #print(provisional, depthRemaining)
+                
     #default_score = 0 # Value of the passed-in state. Needs to be computed.
     
     return [provisional, best_move_state, "my own optional stuff", "more of my stuff"]
@@ -144,6 +157,7 @@ def staticEval(state):
     score = 0
 
     score += check_all_win_cons(state[0])
+    #print(state[0],state[1],score)
     
     return score
     
@@ -165,14 +179,18 @@ def in_a_row_score(spaces, player):
     global K
     score = 0
     in_a_row = 0
+    win = False
+    #print("K:",K)
     for space in spaces:
         if space == player:
             in_a_row += 1
-            score += math.pow(4, in_a_row)
+            score += math.pow(4, in_a_row - 1)
             if in_a_row >= K:
                 score += 1000
+                win = True
         else:
             in_a_row = 0
+    #print("in a row score",score,"for",player,"spaces:",spaces,win)
     return score
 
 
@@ -206,6 +224,7 @@ def check_columns(board):
         column = []
         for row in board:
             column.append(row[i])
+        #print(column)
         score += win_possible_score(column)
     return score
 
@@ -274,15 +293,16 @@ test_board =   [['-',' ',' ',' ','X',' ','-'],
                 [' ',' ',' ',' ',' ',' ',' '],
                 ['-',' ',' ',' ',' ',' ','-']]
 
-TTT_INITIAL_STATE = [[[' ','X',' '],
-                      [' ','X',' '],
-                      [' ','X',' ']], "X"]
+TTT_INITIAL_STATE = [[['O','X',' '],
+                      ['O','X',' '],
+                      [' ',' ',' ']], "X"]
 
 # print(in_a_row_score(['X', 'X', ' ', ' '], 'X'))
 # print(win_possible(['X','X','X', ' ','O','O'], 'X'))
-print(staticEval(TTT_INITIAL_STATE))
-print(staticEval(FIVE_INITIAL_STATE))
-print(wins_possible(['O',' ',' ',' ','O'], 'X'))
+# print(staticEval(TTT_INITIAL_STATE))
+# print(staticEval(FIVE_INITIAL_STATE))
+# print(wins_possible(['O',' ',' ',' ','O'], 'X'))
+print(makeMove(TTT_INITIAL_STATE, "test"))
         
 
  
