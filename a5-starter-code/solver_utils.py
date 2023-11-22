@@ -37,11 +37,12 @@ def value_iteration(
 
     print("goalstate:",mdp.goal)
     print("discount:",mdp.config.gamma)
-    for state in v_table:
+    for state in mdp.state_graph:
         #print(mdp.state_graph[state])
         print("state:",state)
         for action in mdp.state_graph[state]:
-            q_table[(state,action[0])] += mdp.transition(state,action[0],action[1])
+            
+            q_table[state,action[0]] += mdp.transition(state,action[0],action[1])
             print("operator:",action[0])
             print("reward:",mdp.reward(state,action[0],action[1]))
             print("transition:",mdp.transition(state,action[0],action[1]))
