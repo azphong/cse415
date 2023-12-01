@@ -48,7 +48,7 @@ class BinaryPerceptron:
         # ADD YOUR CODE HERE
         sum = 0
         for i in range(len(x_vector)):
-            sum += self.weights[i]*x_vector[i]
+            sum += self.weights[i]*x_vector[i]+self.weights[-1]
         if sum>=0:
             return 1
         else:
